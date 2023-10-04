@@ -25,10 +25,10 @@ public class User {
     private String passwd;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "role_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private GroupUser group;
+    private Role role;
 
 
 }
