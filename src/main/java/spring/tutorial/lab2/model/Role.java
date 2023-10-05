@@ -23,11 +23,11 @@ public class Role {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khong sử dụng trong toString()
-    @JsonIgnore
-    private Collection<GroupUser> groups;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private GroupUser groupUser;
 
 
 }

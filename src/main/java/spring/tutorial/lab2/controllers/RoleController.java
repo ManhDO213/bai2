@@ -8,6 +8,7 @@ import spring.tutorial.lab2.service.GroupService;
 import spring.tutorial.lab2.service.RoleService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/role")
@@ -24,8 +25,8 @@ public class RoleController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role){
-        Role role1 = roleService.saveRole(role);
+    public ResponseEntity<Role> saveRole(@RequestBody Map<String, Object> request ){
+        Role role1 = roleService.saveRole(request);
         return ResponseEntity.ok(role1);
     }
 

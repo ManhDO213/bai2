@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(Map<String, Object> request) {
         User user = new User();
-        // Set<Group> groups =new HashSet<>();
         Long roleID = Long.parseLong(request.get("roleID").toString());
         user.setEmail(request.get("email").toString());
         user.setFullName(request.get("fullName").toString());
@@ -48,15 +47,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User editUser(@PathVariable long id, @RequestBody Map<String, Object> request) {
-        Long roleID = Long.parseLong(request.get("roleID").toString());
-
+        Long groupID = Long.parseLong(request.get("groupID").toString());
         Optional<User> u = userRepository.findById(id);
         if (u.isPresent()) {
             User u1 = u.get();
             u1.setEmail(request.get("email").toString());
             u1.setFullName(request.get("fullName").toString());
             u1.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
-            u1.setRole(roleService.findById(roleID).get());
+            u1.setRole(roleService.findById(groupID).get());
             return userRepository.save(u1);
         }
 

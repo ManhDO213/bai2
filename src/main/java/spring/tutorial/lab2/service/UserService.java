@@ -8,16 +8,17 @@ import java.util.Objects;
 
 public interface UserService {
 
-    public List<User> getAll();
+     List<User> getAll();
 
-    public User saveUser(Map<String, Object> request);
+     User saveUser(Map<String, Object> request);
 
-    public User editUser(long id, Map<String, Object> request);
+     User editUser(long id, Map<String, Object> request);
 
-    public Boolean deleteUser(long id);
+     Boolean deleteUser(long id);
 
-    public User findById(long id);
+     User findById(long id);
 
-    public User finUserByEmail(String email);
+     User finUserByEmail(String email);
+
 
 }
