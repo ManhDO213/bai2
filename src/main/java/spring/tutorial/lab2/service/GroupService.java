@@ -3,12 +3,13 @@ package spring.tutorial.lab2.service;
 import spring.tutorial.lab2.model.GroupUser;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GroupService {
-    public List<GroupUser> getAll();
+     List<GroupUser> getAll();
 
-    public GroupUser saveGroup(GroupUser group);
+     GroupUser saveGroup(GroupUser groupUser);
 
-    public GroupUser findById(long id);
+     Optional<GroupUser> findById(long id);
 
 }

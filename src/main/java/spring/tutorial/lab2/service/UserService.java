@@ -1,5 +1,6 @@
 package spring.tutorial.lab2.service;
 
+import org.springframework.data.repository.query.Param;
 import spring.tutorial.lab2.model.User;
 
 import java.util.List;
@@ -8,14 +9,18 @@ import java.util.Objects;
 
 public interface UserService {
 
-    public List<User> getAll();
+     List<User> getAll();
 
-    public User saveUser(Map<String, Object> request);
+     User saveUser(Map<String, Object> request);
 
-    public User editUser(long id, Map<String, Object> request);
+     User editUser(long id, Map<String, Object> request);
 
-    public Boolean deleteUser(long id);
+     Boolean deleteUser(long id);
 
-    public User findById(long id);
+     User findById(long id);
+
+     User finUserByEmail(String email);
+
+     List<User> finUserByRoleOrID(@Param("id1") long id1);
 
 }
