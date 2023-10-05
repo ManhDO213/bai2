@@ -1,15 +1,13 @@
 package spring.tutorial.lab2.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import spring.tutorial.lab2.model.Role;
 import spring.tutorial.lab2.model.User;
-import spring.tutorial.lab2.repository.RoleRepository;
 import spring.tutorial.lab2.repository.UserRepository;
-import spring.tutorial.lab2.service.GroupService;
 import spring.tutorial.lab2.service.RoleService;
 import spring.tutorial.lab2.service.UserService;
 
@@ -48,6 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(@PathVariable long id, @RequestBody Map<String, Object> request) {
         Long groupID = Long.parseLong(request.get("groupID").toString());
+
         Optional<User> u = userRepository.findById(id);
         if (u.isPresent()) {
             User u1 = u.get();
@@ -82,4 +81,13 @@ public class UserServiceImpl implements UserService {
     public User finUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
+
+
+
+    @Override
+    public List<User> finUserByRoleOrID(@Param("id1") long id1) {
+        return userRepository.findUsersByIdAndRole(id1);
+    }
+
+
 }

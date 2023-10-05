@@ -1,5 +1,6 @@
 package spring.tutorial.lab2.service;
 
+import org.springframework.data.repository.query.Param;
 import spring.tutorial.lab2.model.User;
 
 import java.util.List;
@@ -20,5 +21,6 @@ public interface UserService {
 
      User finUserByEmail(String email);
 
+     List<User> finUserByRoleOrID(@Param("id1") long id1);
 
 }
