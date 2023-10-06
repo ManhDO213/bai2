@@ -6,7 +6,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import spring.tutorial.lab2.model.GroupUser;
 import spring.tutorial.lab2.model.User;
+import spring.tutorial.lab2.repository.GroupRepository;
 import spring.tutorial.lab2.repository.UserRepository;
 import spring.tutorial.lab2.service.RoleService;
 import spring.tutorial.lab2.service.UserService;
@@ -22,6 +25,9 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -40,19 +46,23 @@ public class UserServiceImpl implements UserService {
         user.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
         user.setRole(roleService.findById(roleID).get());
 
+
         return userRepository.save(user);
     }
 
-    @Override
-    public User editUser(@PathVariable long id, @RequestBody Map<String, Object> request) {
-        Long roleID = Long.parseLong(request.get("roleID").toString());
 
+
+    @Override
+    public User editUser(long id, long groupID, Map<String, Object> request) {
+        Long roleID = Long.parseLong(request.get("roleID").toString());
+        Long groupID1= groupID;
         Optional<User> u = userRepository.findById(id);
         if (u.isPresent()) {
             User u1 = u.get();
-            u1.setEmail(request.get("email").toString());
+            u1.getRole().setGroupUser( groupRepository.findById(groupID1).get());
             u1.setFullName(request.get("fullName").toString());
             u1.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
+            u1.setEmail(request.get("email").toString());
             u1.setRole(roleService.findById(roleID).get());
             return userRepository.save(u1);
         }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import spring.tutorial.lab2.model.Role;
 import spring.tutorial.lab2.service.GroupService;
 import spring.tutorial.lab2.service.RoleService;
+import spring.tutorial.lab2.service.impl.RoleServiceImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class RoleController {
 
     @Autowired
-    private RoleService roleService;
+    private RoleServiceImpl roleService;
 
 
     @GetMapping("/all")

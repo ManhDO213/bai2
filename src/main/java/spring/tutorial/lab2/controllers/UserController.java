@@ -39,11 +39,11 @@ public class UserController {
         User u = userService.saveUser(request);
         return ResponseEntity.ok(u);
     }
-
+/////
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<User> editUser(@PathVariable long id, @RequestBody Map<String, Object> request){
-        User u = userService.editUser(id,request);
+    public ResponseEntity<User> editUser(@PathVariable(required = false) long id, @RequestParam(required = false) long groupUser, @RequestBody(required = false) Map<String, Object> request){
+        User u = userService.editUser(id,groupUser,request);
         return  ResponseEntity.ok(u);
     }
 
