@@ -10,7 +10,12 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByEmail(String email);
 
-    @Query(value = "select u.* from user u join group_user g on u.role_id where g.id = :id1", nativeQuery = true)
+    @Query(value =
+            "select u.* from user u " +
+            "JOIN role r ON u.role_id = r.id " +
+            "join group_user g on r.group_id = g.id " +
+            "where  g.id = :id1",
+            nativeQuery = true)
     List<User> findUsersByIdAndRole(@Param("id1") long id1);
 
 }

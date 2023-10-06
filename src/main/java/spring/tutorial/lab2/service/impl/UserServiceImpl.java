@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User editUser(@PathVariable long id, @RequestBody Map<String, Object> request) {
-        Long groupID = Long.parseLong(request.get("groupID").toString());
+        Long roleID = Long.parseLong(request.get("roleID").toString());
 
         Optional<User> u = userRepository.findById(id);
         if (u.isPresent()) {
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
             u1.setEmail(request.get("email").toString());
             u1.setFullName(request.get("fullName").toString());
             u1.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
-            u1.setRole(roleService.findById(groupID).get());
+            u1.setRole(roleService.findById(roleID).get());
             return userRepository.save(u1);
         }
 
