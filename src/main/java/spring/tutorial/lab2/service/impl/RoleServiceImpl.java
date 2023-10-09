@@ -34,11 +34,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Optional<Role> findById(long id) {
-        Optional<Role> optional = roleRepository.findById(id);
-        if (optional.isPresent()) {
-            return roleRepository.findById(id);
-        }
-        return null;
+    public Role findById(long id) {
+        return roleRepository.findById(id);
     }
 }

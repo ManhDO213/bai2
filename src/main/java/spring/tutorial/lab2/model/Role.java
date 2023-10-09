@@ -1,10 +1,6 @@
 package spring.tutorial.lab2.model;
 
 
-import java.util.Collection;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +23,7 @@ public class Role {
     @JoinColumn(name = "group_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private GroupUser groupUser;
+    private Group groupUser;
 
 
 }

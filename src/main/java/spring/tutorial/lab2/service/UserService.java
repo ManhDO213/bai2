@@ -25,4 +25,6 @@ public interface UserService {
 
      List<User> finUserByRoleOrID(@Param("id1") long id1);
 
+
+
 }

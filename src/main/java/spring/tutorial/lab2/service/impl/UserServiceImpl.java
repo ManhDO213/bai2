@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import spring.tutorial.lab2.model.GroupUser;
+import spring.tutorial.lab2.model.Group;
 import spring.tutorial.lab2.model.Role;
 import spring.tutorial.lab2.model.User;
 import spring.tutorial.lab2.repository.GroupRepository;
@@ -15,10 +14,9 @@ import spring.tutorial.lab2.repository.RoleRepository;
 import spring.tutorial.lab2.repository.UserRepository;
 import spring.tutorial.lab2.service.RoleService;
 import spring.tutorial.lab2.service.UserService;
+import spring.tutorial.lab2.util.Util;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,57 +42,52 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(Map<String, Object> request) {
         User user = new User();
-        Long roleID = Long.parseLong(request.get("roleID").toString());
+        Set<Role> roles = new HashSet<>();
+        List<Long> roleIds = (List<Long>) request.get("roleID");
         user.setEmail(request.get("email").toString());
         user.setFullName(request.get("fullName").toString());
         user.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
-        user.setRole(roleService.findById(roleID).get());
-
-
+        if(roleIds != null){
+            for (int i = 0 ;i< roleIds.size();i++){
+                  Role role = roleRepository.findById(Long.parseLong(roleIds.get(i)+""));
+                  roles.add(role);
+            }
+        }
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 
+//    @Override
+//    public User editUser(long id, long groupID, Map<String, Object> request) {
+//        return null;
+//    }
 
 
     @Override
     public User editUser(long id, long groupID, Map<String, Object> request) {
-//        Long roleID = Long.parseLong(request.get("roleID").toString());
-//        Long groupID1= groupID;
-//        Optional<User> u = userRepository.findById(id);
-//        if (u.isPresent()) {
-//            User u1 = u.get();
-//            u1.getRole().setGroupUser(groupRepository.findById(groupID1).get());
-//            u1.setFullName(request.get("fullName").toString());
-//            u1.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
-//            u1.setEmail(request.get("email").toString());
-//            u1.setRole(roleService.findById(roleID).get());
-//
-//            return userRepository.save(u1);
-//        }
-//
-//        return null;
-//    }
-        Long roleID = Long.parseLong(request.get("roleID").toString());
+
+        List<Long> roleIds = (List<Long>) request.get("roleID");
+        Set<Role> roles = new HashSet<>();
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setEmail(request.get("email").toString());
             user.setFullName(request.get("fullName").toString());
             user.setPasswd(passwordEncoder.encode(request.get("passwd").toString()));
-
-            Optional<Role> optionalRole = roleService.findById(roleID);
-            if (optionalRole.isPresent()) {
-                Role role = optionalRole.get();
-                user.setRole(role);
-                GroupUser groupUser = groupRepository.findById(groupID).orElse(null);
-                if (groupUser != null) {
-                    role.setGroupUser(groupUser);
-                    roleRepository.save(role);
+            Optional<Group> groups = groupRepository.findById(groupID);
+            if (groups.isPresent()){
+                Group g = groups.get();
+                if (Util.compareArray(new ArrayList<>(user.getRoles()), new ArrayList<>(g.getRole()))){
+                    if(roleIds != null){
+                        for (int i = 0 ;i< roleIds.size();i++){
+                            Role role = roleRepository.findById(Long.parseLong(roleIds.get(i)+""));
+                            roles.add(role);
+                        }
+                    }
+                    user.setRoles(roles);
                 }
-
-                userRepository.save(user);
-                return user;
             }
+            return userRepository.save(user);
         }
         return null;
     }

@@ -5,13 +5,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
 @Data
+@Table(name = "groupRole")
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupUser {
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +22,10 @@ public class GroupUser {
     @Column
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groupUser")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "groupUser")
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khong sử dụng trong toString()
     @JsonIgnore
     private Collection<Role> role;
+
 }

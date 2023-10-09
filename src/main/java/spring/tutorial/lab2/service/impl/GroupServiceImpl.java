@@ -3,7 +3,7 @@ package spring.tutorial.lab2.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import spring.tutorial.lab2.model.GroupUser;
+import spring.tutorial.lab2.model.Group;
 import spring.tutorial.lab2.repository.GroupRepository;
 import spring.tutorial.lab2.service.GroupService;
 import spring.tutorial.lab2.service.RoleService;
@@ -20,12 +20,12 @@ public class GroupServiceImpl implements GroupService {
     private RoleService roleService;
 
     @Override
-    public List<GroupUser> getAll() {
+    public List<Group> getAll() {
         return groupRepository.findAll();
     }
 
     @Override
-    public GroupUser saveGroup(@RequestBody GroupUser groupUser) {
+    public Group saveGroup(@RequestBody Group groupUser) {
         if (groupUser != null) {
             return groupRepository.save(groupUser);
         }
@@ -34,8 +34,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Optional<GroupUser> findById(long id) {
-        Optional<GroupUser> optional = groupRepository.findById(id);
+    public Optional<Group> findById(long id) {
+        Optional<Group> optional = groupRepository.findById(id);
         if (optional.isPresent()) {
             return groupRepository.findById(id);
         }

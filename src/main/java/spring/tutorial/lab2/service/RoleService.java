@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface RoleService {
     public List<Role> getAll();
 
-    public Role saveRole(@RequestBody Map<String, Object> request);
+    public Role saveRole(Map<String, Object> request);
 
-    public Optional<Role> findById(long id);
+    public Role findById(long id);
 
 
 }
